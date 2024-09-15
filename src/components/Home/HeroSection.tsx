@@ -24,7 +24,7 @@ const HeroSection = () => {
   const onSubmit = (data: any) => console.log(data);
 
   return (
-    <Container className="mb-28">
+    <Container className="mb-32">
       <div className="flex  lg:flex-row flex-col  justify-between relative xl:px-0 px-4">
         <div className=" lg:pt-24 pt-20 xl:w-[800px] lg:w-[550px] w-full">
           <h1 className="xl:text-[55px] lg:text-[40px] text-[34px] font-bold xl:leading-tight leading-tight sm:text-start text-center">

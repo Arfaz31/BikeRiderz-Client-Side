@@ -63,7 +63,7 @@ const Testimonials = () => {
   ];
 
   return (
-    <div className=" mb-28 relative overflow-x-hidden">
+    <div className=" mb-32 relative overflow-x-hidden">
       <img
         className="w-full h-[620px] object-cover object-center"
         src={testimonalBanner}

@@ -8,7 +8,7 @@ const Featured = () => {
   const { data, isLoading } = useGetAllBikesQuery(undefined);
   console.log(data);
   return (
-    <div className="mb-28">
+    <div className="mb-32">
       <Container>
         <h1 className="xl:text-4xl md:text-3xl text-2xl text-center font-bold mb-6">
           Featured & Top Rated Bikes

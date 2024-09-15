@@ -5,7 +5,7 @@ import Container from "../Shared/Container";
 
 const KnowUs = () => {
   return (
-    <Container className="mb-28 px-5">
+    <Container className="mb-32 px-5">
       <div className=" flex lg:flex-row flex-col lg:gap-14 md:gap-28 gap-32 justify-center">
         <div className="relative lg:flex-col flex">
           <div className="flex">
