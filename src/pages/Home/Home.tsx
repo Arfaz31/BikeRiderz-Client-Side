@@ -7,6 +7,7 @@ import HeroSection from "@/components/Home/HeroSection";
 import KnowUs from "@/components/Home/KnowUs";
 import SpinWheel from "@/components/Home/SpinWheel/SpinWheel ";
 import Testimonials from "@/components/Home/Testimonials";
+import ScrollBottomToTop from "@/components/Shared/ScrollBottomToTop";
 
 const Home = () => {
   return (
@@ -20,6 +21,7 @@ const Home = () => {
       <Gallary />
       <Contact />
       <Blog />
+      <ScrollBottomToTop />
     </div>
   );
 };

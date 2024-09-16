@@ -161,7 +161,8 @@ const XLFooter = () => {
           </div>
         </div>
         <div className="xl:pt-24 pt-20">
-          <hr className="h-[1px] bg-gray-200" />
+          <div className="border-b border-dashed "></div>
+          {/* <div className=" border-dashed border-b bg-gray-200" /> */}
           <div className="flex justify-between xl:pt-8 pt-6">
             <p className="text-white xl:text-base text-xs">
               Copyright © 2024 BIKERIDERZ Ltd. All rights reserved.
