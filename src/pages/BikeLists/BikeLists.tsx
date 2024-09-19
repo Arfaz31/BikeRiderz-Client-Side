@@ -1,15 +1,14 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 
-import { format } from "date-fns";
-import { Calendar as CalendarIcon, Search } from "lucide-react";
-import { cn } from "@/lib/utils";
-import { Button } from "@/components/ui/button";
-import { Calendar } from "@/components/ui/calendar";
+import { Search, SlidersHorizontal } from "lucide-react";
 import {
-  Popover,
-  PopoverContent,
-  PopoverTrigger,
-} from "@/components/ui/popover";
+  Pagination,
+  PaginationContent,
+  PaginationItem,
+  PaginationLink,
+  PaginationNext,
+  PaginationPrevious,
+} from "@/components/ui/pagination";
 import { useForm } from "react-hook-form";
 import bikes from "@/assets/blog/topBike.jpg";
 import { useGetAllBikesQuery } from "@/redux/api/BikeApi/bikeApi";
@@ -18,13 +17,22 @@ import { Label } from "@/components/ui/label";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import Lottie from "lottie-react";
 import bikelottie from "@/assets/lottie/bikelottie.json";
-import { Star, Heart } from "lucide-react";
+import { Star } from "lucide-react";
 import Select from "react-select";
 import Container from "@/components/Shared/Container";
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { TBike } from "@/types/Types";
 import FeaturedProductCard from "@/components/Home/FeaturedProductCard";
-import FilterModal from "./FilterModal";
+import {
+  Sheet,
+  SheetClose,
+  SheetContent,
+  SheetHeader,
+  SheetTitle,
+  SheetTrigger,
+} from "@/components/ui/sheet";
+import { useSearchParams } from "react-router-dom";
+import { Button } from "@/components/ui/button";
 
 const options: Array<{ value: string; label: string }> = [
   { value: "price-low-high", label: "Lowest to Highest" },
@@ -34,19 +42,104 @@ const options: Array<{ value: string; label: string }> = [
 const BikeLists = () => {
   const [date, setDate] = useState<Date>();
   const [isGridLayout, setIsGridLayout] = useState(true);
-  const [selectedOption, setSelectedOption] = useState<{
+  const [selectedPriceOption, setSelectedPriceOption] = useState<{
     value: string;
     label: string;
   } | null>(null);
-  const [availability, setAvailability] = useState<string | null>(null);
+  const [brand, setBrand] = useState<string | null>(null);
+  const [isAvailable, setAvailability] = useState<string | null>(null);
   const [minPrice, setMinPrice] = useState<number | null>(null);
   const [maxPrice, setMaxPrice] = useState<number | null>(null);
-  const [brand, setBrand] = useState<string | null>(null);
+  const sortBy = selectedPriceOption?.value || ""; // Convert null to an empty string
+  const [currentPage, setCurrentPage] = useState<number>(1);
+  const [searchTerm, setSearchTerm] = useState("");
   const searchInputRef = useRef<HTMLInputElement>(null);
+  const [searchParams] = useSearchParams();
+  const urlSearchBrand = searchParams.get("brand") || "";
+  const urlSearchDate = searchParams.get("date") || "";
+
+  useEffect(() => {
+    if (urlSearchBrand) {
+      setBrand(urlSearchBrand);
+    }
+
+    if (urlSearchDate) {
+      // Try to parse the date string into a Date object
+      const parsedDate = new Date(urlSearchDate);
+      if (!isNaN(parsedDate.getTime())) {
+        setDate(parsedDate);
+      } else {
+        setDate(undefined);
+      }
+    }
+  }, [urlSearchBrand, urlSearchDate]);
+
   const { register, handleSubmit } = useForm();
-  const { data, isLoading } = useGetAllBikesQuery(undefined);
-  console.log(data);
-  const onSubmit = (data: any) => console.log(data);
+  const { data, isLoading } = useGetAllBikesQuery({
+    startTime: date ? date.toISOString().split("T")[0] : undefined,
+    searchTerm,
+    sortBy,
+    isAvailable: isAvailable ?? undefined,
+    brand: brand ?? undefined,
+    page: currentPage,
+  });
+
+  const onSubmit = (formData: any) => {
+    const { brand, date } = formData;
+    setBrand(brand);
+    const parsedDate = new Date(date);
+    if (!isNaN(parsedDate.getTime())) {
+      setDate(parsedDate);
+    } else {
+      setDate(undefined);
+    }
+  };
+
+  const handleBrandChange = (brand: string) => {
+    setBrand(brand);
+  };
+
+  const handleSearchClick = () => {
+    if (searchInputRef.current) {
+      setSearchTerm(searchInputRef.current.value); // Update the search term
+    }
+  };
+
+  const handleMinPriceChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const value = event.target.value ? Number(event.target.value) : null;
+    setMinPrice(value);
+  };
+
+  const handleMaxPriceChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const value = event.target.value ? Number(event.target.value) : null;
+    setMaxPrice(value);
+  };
+
+  const handleSelectChange = (
+    selectedPriceOption: { value: string; label: string } | null
+  ) => {
+    setSelectedPriceOption(selectedPriceOption);
+  };
+
+  const handleAvailabilityChange = (value: string) => {
+    setAvailability(value);
+  };
+
+  const totalPages = data?.data?.totalPages || 1;
+  const handlePageChange = (newPage: number) => {
+    if (newPage >= 1 && newPage <= totalPages) {
+      setCurrentPage(newPage);
+    }
+  };
+
+  const handleClearFilter = () => {
+    setAvailability(null);
+    setSelectedPriceOption(null);
+    setSearchTerm("");
+    setMinPrice(null);
+    setMaxPrice(null);
+    setBrand(null);
+  };
 
   const tags = ["Bike", "Jogging", "Events", "Workouts", "Training", "Health"];
   const brands = [
@@ -83,45 +176,22 @@ const BikeLists = () => {
                   <div className="">
                     <select
                       {...register("brand")}
-                      className="focus:outline-none border border-gray-200 xl:w-[260px] lg:w-[200px] md:w-[210px] sm:w-[150px] w-[110px] h-12  px-3 xl:text-lg md:text-base sm:text-sm text-xs"
+                      className="border border-[#ff950a] cursor-pointer focus:outline-none focus:border-[#ffa633] xl:w-[260px] lg:w-[200px] md:w-[210px] sm:w-[150px] w-[110px] h-12  px-3 xl:text-lg md:text-base sm:text-sm text-xs"
                     >
-                      <option value="Yamaha">Yamaha</option>
-                      <option value="Suzuki">Suzuki</option>
-                      <option value="KTM">KTM</option>
-                      <option value="Kawasaki">Kawasaki</option>
-                      <option value="Enfield">Enfield</option>
-                      <option value="Honda">Honda</option>
-                      <option value="TVS ">TVS </option>
+                      {brands.map((brand) => (
+                        <option key={brand} value={brand}>
+                          {brand}
+                        </option>
+                      ))}
                     </select>
                   </div>
 
                   <div>
-                    <Popover>
-                      <PopoverTrigger asChild>
-                        <Button
-                          variant={"outline"}
-                          className={cn(
-                            "focus:outline-none xl:w-[260px] lg:w-[220px] md:w-[210px] sm:w-[190px] w-[150px] h-12  px-3 justify-start text-left font-normal xl:text-lg sm:text-sm text-xs",
-                            !date && "text-muted-foreground"
-                          )}
-                        >
-                          <CalendarIcon className="mr-2 h-4 w-4" />
-                          {date ? (
-                            format(date, "PPP")
-                          ) : (
-                            <span>Pick a date</span>
-                          )}
-                        </Button>
-                      </PopoverTrigger>
-                      <PopoverContent className="w-auto p-0">
-                        <Calendar
-                          mode="single"
-                          selected={date}
-                          onSelect={setDate}
-                          initialFocus
-                        />
-                      </PopoverContent>
-                    </Popover>
+                    <input
+                      type="date"
+                      {...register("date", { required: true })}
+                      className=" py-2 border border-[#ff950a] cursor-pointer focus:outline-none focus:border-[#ffa633] xl:w-[260px] lg:w-[200px] md:w-[210px] sm:w-[150px] w-[110px] h-12  px-3 xl:text-lg md:text-base sm:text-sm text-xs justify-between"
+                    />
                   </div>
                 </div>
 
@@ -154,7 +224,7 @@ const BikeLists = () => {
               <button
                 className="bg-[#ff950a] px-4 py-2 h-full text-white rounded-r border border-[#ff950a] -ml-px"
                 type="submit"
-                // onClick={handleSearchClick}
+                onClick={handleSearchClick}
               >
                 Search
               </button>
@@ -169,16 +239,19 @@ const BikeLists = () => {
 
               <div>
                 <div className="mt-10 mb-5">
-                  <button className="flex sm:text-lg text-base items-center justify-center gap-2 bg-[#ffa633] text-white md:w-[140px] w-full h-12 p-3 relative overflow-hidden group">
+                  <button
+                    className="flex sm:text-lg text-base items-center justify-center gap-2 bg-[#ffa633] text-white md:w-[140px] w-full h-12 p-3 relative overflow-hidden group"
+                    onClick={handleClearFilter}
+                  >
                     <span className="z-10">Clear Filter</span>
                     <span className="absolute inset-0 bg-[#ff950a] transition-all duration-300 transform -translate-x-full group-hover:translate-x-0"></span>
                   </button>
                 </div>
                 <div className="flex flex-col gap-2 my-5">
-                  {availability !== null && (
+                  {isAvailable !== null && (
                     <div className="bg-gray-200  px-3 py-1 text-sm font-semibold text-gray-700 flex items-center justify-between">
                       Availability:{" "}
-                      {availability === "true" ? "In Stock" : "Out of Stock"}
+                      {isAvailable === "true" ? "Available" : "Rented"}
                       <span
                         className="ml-2 cursor-pointer"
                         onClick={() => setAvailability(null)}
@@ -187,12 +260,12 @@ const BikeLists = () => {
                       </span>
                     </div>
                   )}
-                  {selectedOption && (
+                  {selectedPriceOption && (
                     <div className="bg-gray-200  px-3 py-1 text-sm font-semibold text-gray-700 flex items-center justify-between">
-                      {selectedOption.label}
+                      {selectedPriceOption.label}
                       <span
                         className="ml-2 cursor-pointer"
-                        onClick={() => setSelectedOption(null)}
+                        onClick={() => setSelectedPriceOption(null)}
                       >
                         <X />
                       </span>
@@ -217,7 +290,7 @@ const BikeLists = () => {
                       Brand: {brand}
                       <span
                         className="ml-2 cursor-pointer"
-                        // onClick={() => setBrand(null)}
+                        onClick={() => setBrand(null)}
                       >
                         <X />
                       </span>
@@ -234,8 +307,8 @@ const BikeLists = () => {
                 <p className="text-lg font-bold mt-8">Availability</p>
                 <div>
                   <RadioGroup
-                  // value={availability || ""}
-                  // onValueChange={handleAvailabilityChange}
+                    value={isAvailable || ""}
+                    onValueChange={handleAvailabilityChange}
                   >
                     <div className="flex items-center text-base pt-3 space-x-2">
                       <RadioGroupItem value="true" id="r1" />
@@ -256,7 +329,7 @@ const BikeLists = () => {
                     <input
                       type="number"
                       placeholder="From"
-                      // onChange={handleMinPriceChange}
+                      onChange={handleMinPriceChange}
                       className="focus:outline-none w-full"
                     />
                   </div>
@@ -265,7 +338,7 @@ const BikeLists = () => {
                     <input
                       type="number"
                       placeholder="To"
-                      // onChange={handleMaxPriceChange}
+                      onChange={handleMaxPriceChange}
                       className="focus:outline-none w-full"
                     />
                   </div>
@@ -276,8 +349,8 @@ const BikeLists = () => {
                 <p className="text-lg font-bold mt-8">Brand</p>
                 <div>
                   <RadioGroup
-                  // value={brand || ""}
-                  // onValueChange={handleBrandChange}
+                    value={brand || ""}
+                    onValueChange={handleBrandChange}
                   >
                     {brands.map((brandName, index) => (
                       <div
@@ -425,13 +498,359 @@ const BikeLists = () => {
             <div>
               <div className="flex justify-between mb-14">
                 <div className="lg:hidden block">
-                  <FilterModal />
+                  <div className="">
+                    <Sheet>
+                      <SheetTrigger asChild>
+                        <Button className="text-white bg-[#ff950a] hover:bg-[#ff950a]">
+                          <SlidersHorizontal />
+                        </Button>
+                      </SheetTrigger>
+                      <SheetContent
+                        side="left"
+                        className="overflow-y-scroll p-0 pt-8"
+                      >
+                        <SheetHeader>
+                          <SheetTitle>
+                            {" "}
+                            <span className="   sm:text-2xl text-xl  font-bold pl-5">
+                              BIKE<span className="text-[#ff950a]">RIDERZ</span>
+                            </span>
+                          </SheetTitle>
+                        </SheetHeader>
+                        <div className="bg-[#F5F8FA] mt-4 pb-4">
+                          <div className="  px-5 pt-12">
+                            <p className="xl:text-base lg:text-sm text-base font-bold pb-2">
+                              What are you looking for
+                            </p>
+                            <div className="flex w-full max-w-sm items-center ">
+                              <input
+                                type="text"
+                                placeholder="Search"
+                                ref={searchInputRef}
+                                className="p-2 w-full border border-[#ff950a] rounded-l focus:outline-none focus:border-[#ff950a]"
+                              />
+                              <button
+                                className="bg-[#ff950a] px-4 py-2 h-full text-white rounded-r border border-[#ff950a] -ml-px"
+                                type="submit"
+                                onClick={handleSearchClick}
+                              >
+                                Search
+                              </button>
+                            </div>
+
+                            <div>
+                              <p className="text-lg font-bold mt-16 mb-1">
+                                FILTER BY
+                              </p>
+                              <div className="flex items-center">
+                                <span className="bg-[#ff950a] w-24 h-1"></span>
+                                <hr className="bg-[#6f7276] w-full" />
+                              </div>
+
+                              <div>
+                                <div className="mt-10 mb-5">
+                                  <button
+                                    className="flex sm:text-lg text-base items-center justify-center gap-2 bg-[#ffa633] text-white md:w-[140px] w-full h-12 p-3 relative overflow-hidden group"
+                                    onClick={handleClearFilter}
+                                  >
+                                    <span className="z-10">Clear Filter</span>
+                                    <span className="absolute inset-0 bg-[#ff950a] transition-all duration-300 transform -translate-x-full group-hover:translate-x-0"></span>
+                                  </button>
+                                </div>
+                                <div className="flex flex-col gap-2 my-5">
+                                  {isAvailable !== null && (
+                                    <div className="bg-gray-200  px-3 py-1 text-sm font-semibold text-gray-700 flex items-center justify-between">
+                                      Availability:{" "}
+                                      {isAvailable === "true"
+                                        ? "Available"
+                                        : "Rented"}
+                                      <span
+                                        className="ml-2 cursor-pointer"
+                                        onClick={() => setAvailability(null)}
+                                      >
+                                        <X />
+                                      </span>
+                                    </div>
+                                  )}
+                                  {selectedPriceOption && (
+                                    <div className="bg-gray-200  px-3 py-1 text-sm font-semibold text-gray-700 flex items-center justify-between">
+                                      {selectedPriceOption.label}
+                                      <span
+                                        className="ml-2 cursor-pointer"
+                                        onClick={() =>
+                                          setSelectedPriceOption(null)
+                                        }
+                                      >
+                                        <X />
+                                      </span>
+                                    </div>
+                                  )}
+                                  {(minPrice !== null || maxPrice !== null) && (
+                                    <div className="bg-gray-200 px-3 py-1 text-sm font-semibold text-gray-700 flex items-center justify-between">
+                                      Price: ${minPrice ?? 0} - $
+                                      {maxPrice ?? 1000}
+                                      <span
+                                        className="ml-2 cursor-pointer"
+                                        onClick={() => {
+                                          setMinPrice(null);
+                                          setMaxPrice(null);
+                                        }}
+                                      >
+                                        <X />
+                                      </span>
+                                    </div>
+                                  )}
+                                  {brand !== null && (
+                                    <div className="bg-gray-200 px-3 py-1 text-sm font-semibold text-gray-700 flex items-center justify-between">
+                                      Brand: {brand}
+                                      <span
+                                        className="ml-2 cursor-pointer"
+                                        onClick={() => setBrand(null)}
+                                      >
+                                        <X />
+                                      </span>
+                                    </div>
+                                  )}
+                                </div>
+                                <div className="flex items-center">
+                                  <span className="bg-[#ff950a] w-24 h-1"></span>
+                                  <hr className="bg-[#6f7276] w-full" />
+                                </div>
+                              </div>
+
+                              <div>
+                                <p className="text-lg font-bold mt-8">
+                                  Availability
+                                </p>
+                                <div>
+                                  <RadioGroup
+                                    value={isAvailable || ""}
+                                    onValueChange={handleAvailabilityChange}
+                                  >
+                                    <div className="flex items-center text-base pt-3 space-x-2">
+                                      <RadioGroupItem value="true" id="r1" />
+                                      <Label htmlFor="r1">Available</Label>
+                                    </div>
+                                    <div className="flex items-center text-base pt-3 space-x-2">
+                                      <RadioGroupItem value="false" id="r2" />
+                                      <Label htmlFor="r2">Rented</Label>
+                                    </div>
+                                  </RadioGroup>
+                                </div>
+                              </div>
+                              <div>
+                                <p className="text-lg font-bold mt-8">Price</p>
+                                <div className="flex gap-4 items-center pt-3">
+                                  <div className="flex items-center border border-[#ff950a] rounded p-2">
+                                    <span className="text-gray-600 mr-2">
+                                      $
+                                    </span>
+                                    <input
+                                      type="number"
+                                      placeholder="From"
+                                      onChange={handleMinPriceChange}
+                                      className="focus:outline-none w-full"
+                                    />
+                                  </div>
+                                  <div className="flex items-center border border-[#ff950a] rounded p-2">
+                                    <span className="text-gray-600 mr-2">
+                                      $
+                                    </span>
+                                    <input
+                                      type="number"
+                                      placeholder="To"
+                                      onChange={handleMaxPriceChange}
+                                      className="focus:outline-none w-full"
+                                    />
+                                  </div>
+                                </div>
+                              </div>
+
+                              <div>
+                                <p className="text-lg font-bold mt-8">Brand</p>
+                                <div>
+                                  <RadioGroup
+                                    value={brand || ""}
+                                    onValueChange={handleBrandChange}
+                                  >
+                                    {brands.map((brandName, index) => (
+                                      <div
+                                        key={index}
+                                        className="flex items-center text-sm my-2"
+                                      >
+                                        <RadioGroupItem
+                                          value={brandName}
+                                          id={brandName}
+                                        />
+                                        <Label
+                                          className="text-sm ml-3"
+                                          htmlFor={brandName}
+                                        >
+                                          {brandName}
+                                        </Label>
+                                      </div>
+                                    ))}
+                                  </RadioGroup>
+                                </div>
+                              </div>
+                              <p className="text-lg font-bold mt-8 ">Rating</p>
+                              <div>
+                                <RadioGroup>
+                                  <div className="flex items-center text-base pt-3 space-x-2">
+                                    <RadioGroupItem value="one-star" id="r1" />
+                                    <Label htmlFor="r1" className="flex">
+                                      <Star
+                                        className="md:size-5 size-[18px]"
+                                        color="orange"
+                                        fill="orange"
+                                      />
+                                    </Label>
+                                  </div>
+                                  <div className="flex items-center text-base pt-3 space-x-2">
+                                    <RadioGroupItem value="two-star" id="r2" />
+                                    <Label
+                                      htmlFor="r2"
+                                      className="flex space-x-1"
+                                    >
+                                      <Star
+                                        className="md:size-5 size-[18px]"
+                                        color="orange"
+                                        fill="orange"
+                                      />
+                                      <Star
+                                        className="md:size-5 size-[18px]"
+                                        color="orange"
+                                        fill="orange"
+                                      />
+                                    </Label>
+                                  </div>
+                                  <div className="flex items-center text-base pt-3 space-x-2">
+                                    <RadioGroupItem
+                                      value="three-star"
+                                      id="r2"
+                                    />
+                                    <Label
+                                      htmlFor="r2"
+                                      className="flex space-x-1"
+                                    >
+                                      {" "}
+                                      <Star
+                                        className="md:size-5 size-[18px]"
+                                        color="orange"
+                                        fill="orange"
+                                      />
+                                      <Star
+                                        className="md:size-5 size-[18px]"
+                                        color="orange"
+                                        fill="orange"
+                                      />
+                                      <Star
+                                        className="md:size-5 size-[18px]"
+                                        color="orange"
+                                        fill="orange"
+                                      />
+                                    </Label>
+                                  </div>
+                                  <div className="flex items-center text-base pt-3 space-x-2">
+                                    <RadioGroupItem value="four-star" id="r2" />
+                                    <Label
+                                      htmlFor="r2"
+                                      className="flex space-x-1"
+                                    >
+                                      {" "}
+                                      <Star
+                                        className="md:size-5 size-[18px]"
+                                        color="orange"
+                                        fill="orange"
+                                      />
+                                      <Star
+                                        className="md:size-5 size-[18px]"
+                                        color="orange"
+                                        fill="orange"
+                                      />
+                                      <Star
+                                        className="md:size-5 size-[18px]"
+                                        color="orange"
+                                        fill="orange"
+                                      />
+                                      <Star
+                                        className="md:size-5 size-[18px]"
+                                        color="orange"
+                                        fill="orange"
+                                      />
+                                    </Label>
+                                  </div>
+                                  <div className="flex items-center text-base pt-3 space-x-2">
+                                    <RadioGroupItem value="five-star" id="r2" />
+                                    <Label
+                                      htmlFor="r2"
+                                      className="flex space-x-1"
+                                    >
+                                      <Star
+                                        className="md:size-5 size-[18px]"
+                                        color="orange"
+                                        fill="orange"
+                                      />
+                                      <Star
+                                        className="md:size-5 size-[18px]"
+                                        color="orange"
+                                        fill="orange"
+                                      />
+                                      <Star
+                                        className="md:size-5 size-[18px]"
+                                        color="orange"
+                                        fill="orange"
+                                      />
+                                      <Star
+                                        className="md:size-5 size-[18px]"
+                                        color="orange"
+                                        fill="orange"
+                                      />
+                                      <Star
+                                        className="md:size-5 size-[18px]"
+                                        color="orange"
+                                        fill="orange"
+                                      />
+                                    </Label>
+                                  </div>
+                                </RadioGroup>
+                              </div>
+
+                              <p className="text-lg font-bold mt-16 mb-1">
+                                TAGS
+                              </p>
+                              <div className="flex items-center">
+                                <span className="bg-[#ff950a] w-24 h-1"></span>
+                                <hr className="bg-[#6f7276] w-full" />
+                              </div>
+                              <div className="mt-7 md:mb-0 mb-10">
+                                <div className="grid xl:grid-cols-3 lg:grid-cols-2 md:grid-cols-3 grid-cols-3 gap-3">
+                                  {tags.map((tag, index) => (
+                                    <div
+                                      key={index}
+                                      className="border border-[#d4d5d5] rounded-full hover:bg-[#ff950a] hover:text-white p-2 cursor-pointer transition-all duration-500 ease-in-out"
+                                    >
+                                      <p className="text-sm text-center">
+                                        {tag}
+                                      </p>
+                                    </div>
+                                  ))}
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+
+                          <SheetClose asChild></SheetClose>
+                        </div>
+                      </SheetContent>
+                    </Sheet>
+                  </div>
                 </div>
                 <div className="form-control md:w-[220px] w-[180px]">
                   <label className="label"></label>
                   <Select
-                    value={selectedOption}
-                    // onChange={handleSelectChange}
+                    value={selectedPriceOption}
+                    onChange={handleSelectChange}
                     options={options}
                     placeholder="Sort By"
                     className="border border-[#ff9914] focus:outline-none focus:border-[#ff950a]"
@@ -471,16 +890,67 @@ const BikeLists = () => {
                         </div>
                       </div>
                     ))
-                  : data?.data
-                      ?.slice(0, 9)
-                      .map((item: TBike) => (
-                        <FeaturedProductCard key={item.id} item={item} />
-                      ))}
+                  : data?.data?.bikes?.map((item: TBike) => (
+                      <FeaturedProductCard key={item._id} item={item} />
+                    ))}
               </div>
             </div>
           </div>
         </div>
       </Container>
+
+      {/* pagination */}
+      <div className="pt-24 overflow-x-hidden ">
+        <Pagination>
+          <PaginationContent>
+            <PaginationItem>
+              <PaginationPrevious
+                href="#"
+                onClick={(e) => {
+                  if (currentPage === 1) {
+                    e.preventDefault();
+                  } else {
+                    handlePageChange(currentPage - 1);
+                  }
+                }}
+                className={
+                  currentPage === 1 ? "cursor-not-allowed opacity-50" : ""
+                }
+              />
+            </PaginationItem>
+
+            {Array.from({ length: totalPages }).map((_, index) => (
+              <PaginationItem key={index}>
+                <PaginationLink
+                  href="#"
+                  isActive={currentPage === index + 1}
+                  onClick={() => handlePageChange(index + 1)}
+                >
+                  {index + 1}
+                </PaginationLink>
+              </PaginationItem>
+            ))}
+
+            <PaginationItem>
+              <PaginationNext
+                href="#"
+                onClick={(e) => {
+                  if (currentPage === totalPages) {
+                    e.preventDefault();
+                  } else {
+                    handlePageChange(currentPage + 1);
+                  }
+                }}
+                className={
+                  currentPage === totalPages
+                    ? "cursor-not-allowed opacity-50"
+                    : ""
+                }
+              />
+            </PaginationItem>
+          </PaginationContent>
+        </Pagination>
+      </div>
     </div>
   );
 };

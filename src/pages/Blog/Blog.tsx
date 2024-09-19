@@ -194,7 +194,7 @@ const Blog = () => {
                   className="p-2 w-full border border-[#ff950a] rounded-l focus:outline-none focus:border-[#ff950a]"
                 />
                 <button
-                  className="bg-[#ff950a] px-4 py-2 h-full text-white rounded-r border border-[#222] -ml-px"
+                  className="bg-[#ff950a] px-4 py-2 h-full text-white rounded-r border border-[#ff950a] -ml-px"
                   type="submit"
                 >
                   Search

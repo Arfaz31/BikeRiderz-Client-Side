@@ -6,7 +6,7 @@ import Lottie from "lottie-react";
 import bikelottie from "@/assets/lottie/bikelottie.json";
 const Featured = () => {
   const { data, isLoading } = useGetAllBikesQuery(undefined);
-  console.log(data);
+
   return (
     <div className="mb-32">
       <Container>
@@ -29,10 +29,10 @@ const Featured = () => {
                   </div>
                 </div>
               ))
-            : data?.data
+            : data?.data?.bikes
                 ?.slice(0, 8)
                 .map((item: TBike) => (
-                  <FeaturedProductCard key={item.id} item={item} />
+                  <FeaturedProductCard key={item._id} item={item} />
                 ))}
         </div>
       </Container>

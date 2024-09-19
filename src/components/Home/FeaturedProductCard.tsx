@@ -4,6 +4,7 @@ import cc from "@/assets/icon/car-engine.png";
 import power from "@/assets/icon/power.png";
 import mileage from "@/assets/icon/mileage.png";
 import tyer from "@/assets/icon/tyer.png";
+import { Link } from "react-router-dom";
 
 const FeaturedProductCard = ({ item }: { item: TBike }) => {
   return (
@@ -59,10 +60,12 @@ const FeaturedProductCard = ({ item }: { item: TBike }) => {
           <div className="md:w-10 w-9 md:h-10 h-9 cursor-pointer hover:text-white border border-gray-300 hover:border-none hover:bg-[#ff950a] rounded-full transition-all duration-500 md:hover:scale-110 hover:scale-90 ease-in-out flex items-center justify-center p-2 ">
             <Heart className="w-8 h-8" />
           </div>
-          <button className="flex text-base items-center justify-center bg-[#ffa633] text-white w-[120px] h-11 p-3  relative group overflow-hidden">
-            <span className="relative z-10">Book Now</span>
-            <span className="absolute inset-0 bg-[#ff950a] transition-all duration-300 transform -translate-x-full group-hover:translate-x-0"></span>
-          </button>
+          <Link to={`/singleProduct/${item._id}`}>
+            <button className="flex text-sm items-center justify-center bg-[#ffa633] text-white w-[120px] h-11 p-3  relative group overflow-hidden">
+              <span className="relative z-10">View Details</span>
+              <span className="absolute inset-0 bg-[#ff950a] transition-all duration-300 transform -translate-x-full group-hover:translate-x-0"></span>
+            </button>
+          </Link>
         </div>
       </div>
     </div>

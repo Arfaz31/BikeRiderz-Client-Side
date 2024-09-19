@@ -1,28 +1,33 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import * as React from "react";
-import { format } from "date-fns";
-import { Calendar as CalendarIcon, Search } from "lucide-react";
+
+import { Search } from "lucide-react";
 import user1 from "@/assets/hero-bg/customer/user1.jpg";
 import user2 from "@/assets/hero-bg/customer/user2.jpg";
 import user3 from "@/assets/hero-bg/customer/user3.jpg";
-import { cn } from "@/lib/utils";
-import { Button } from "@/components/ui/button";
-import { Calendar } from "@/components/ui/calendar";
-import {
-  Popover,
-  PopoverContent,
-  PopoverTrigger,
-} from "@/components/ui/popover";
 import bikeimg1 from "@/assets/hero-bg/banner-img-01.png";
 import Container from "../Shared/Container";
 import { motion } from "framer-motion";
 import { useForm } from "react-hook-form";
+import { useNavigate } from "react-router-dom";
 
 const HeroSection = () => {
-  const [date, setDate] = React.useState<Date>();
+  const navigate = useNavigate();
   const { register, handleSubmit } = useForm();
-  const onSubmit = (data: any) => console.log(data);
+  const onSubmit = (formData: any) => {
+    const { brand, date } = formData;
 
+    // Navigate to the BikeList page with brand and date as query parameters
+    navigate(`/bike?brand=${brand}&date=${date}`);
+  };
+  const brands = [
+    "Yamaha",
+    "Suzuki",
+    "KTM",
+    "Kawasaki",
+    "Enfield",
+    "Honda",
+    "TVS",
+  ];
   return (
     <Container className="mb-32">
       <div className="flex  lg:flex-row flex-col  justify-between relative xl:px-0 px-4">
@@ -45,45 +50,24 @@ const HeroSection = () => {
                   <div className="">
                     <select
                       {...register("brand")}
-                      className="focus:outline-none border border-gray-200 xl:w-[240px] lg:w-[180px] md:w-[210px] sm:w-[150px] w-[110px] h-12  px-3 xl:text-lg md:text-base sm:text-sm text-xs"
+                      className="border border-[#ff950a] cursor-pointer focus:outline-none focus:border-[#ffa633] xl:w-[240px] lg:w-[180px] md:w-[210px] sm:w-[150px] w-[110px] h-12  px-3 xl:text-lg md:text-base sm:text-sm text-xs"
                     >
-                      <option value="Yamaha">Yamaha</option>
-                      <option value="Suzuki">Suzuki</option>
-                      <option value="KTM">KTM</option>
-                      <option value="Kawasaki">Kawasaki</option>
-                      <option value="Enfield">Enfield</option>
-                      <option value="Honda">Honda</option>
-                      <option value="TVS ">TVS </option>
+                      {brands.map((brand) => (
+                        <option key={brand} value={brand}>
+                          {brand}
+                        </option>
+                      ))}
                     </select>
                   </div>
 
                   <div>
-                    <Popover>
-                      <PopoverTrigger asChild>
-                        <Button
-                          variant={"outline"}
-                          className={cn(
-                            "focus:outline-none xl:w-[240px] lg:w-[180px] md:w-[210px] sm:w-[190px] w-[150px] h-12  px-3 justify-start text-left font-normal xl:text-lg sm:text-sm text-xs",
-                            !date && "text-muted-foreground"
-                          )}
-                        >
-                          <CalendarIcon className="mr-2 h-4 w-4" />
-                          {date ? (
-                            format(date, "PPP")
-                          ) : (
-                            <span>Pick a date</span>
-                          )}
-                        </Button>
-                      </PopoverTrigger>
-                      <PopoverContent className="w-auto p-0">
-                        <Calendar
-                          mode="single"
-                          selected={date}
-                          onSelect={setDate}
-                          initialFocus
-                        />
-                      </PopoverContent>
-                    </Popover>
+                    <div>
+                      <input
+                        type="date"
+                        {...register("date", { required: true })}
+                        className=" py-2 border border-[#ff950a] cursor-pointer focus:outline-none focus:border-[#ffa633] xl:w-[240px] lg:w-[180px] md:w-[210px] sm:w-[190px] w-[150px] h-12  px-3  text-left font-normal xl:text-lg sm:text-sm text-xs justify-between"
+                      />
+                    </div>
                   </div>
                 </div>
 

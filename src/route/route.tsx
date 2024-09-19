@@ -4,6 +4,7 @@ import BikeLists from "@/pages/BikeLists/BikeLists";
 import Blog from "@/pages/Blog/Blog";
 import ErrorPage from "@/pages/ErrorPage/ErrorPage";
 import Home from "@/pages/Home/Home";
+import SingleProduct from "@/pages/SingleProductPage/SingleProduct";
 import { createBrowserRouter } from "react-router-dom";
 
 const router = createBrowserRouter([
@@ -27,6 +28,10 @@ const router = createBrowserRouter([
       {
         path: "blog",
         element: <Blog />,
+      },
+      {
+        path: "singleProduct/:id",
+        element: <SingleProduct />,
       },
     ],
   },
