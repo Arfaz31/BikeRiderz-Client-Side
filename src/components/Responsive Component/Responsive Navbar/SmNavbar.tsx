@@ -16,12 +16,22 @@ import {
   SheetTitle,
   SheetTrigger,
 } from "@/components/ui/sheet";
+import { useAppDispatch, useAppSelector } from "@/redux/hook";
+import { logOut } from "@/redux/features/Auth/authSlice";
 
 const SmNavbar = () => {
+  const { user } = useAppSelector((store) => store.auth);
+  const dispatch = useAppDispatch();
+
+  const dashboardLink =
+    user?.role === "admin" ? "/admin-dashboard" : "/user-dashboard";
+  const handleLogout = () => {
+    dispatch(logOut());
+  };
   const Links = [
     { name: "HOME", link: "/" },
     { name: "BIKE LIST", link: "/bike" },
-    { name: "DASHBOARD", link: "/dashboard" },
+    ...(user ? [{ name: "DASHBOARD", link: dashboardLink }] : []),
     { name: "ABOUT US", link: "/about" },
     { name: "BLOG", link: "/blog" },
   ];
@@ -84,11 +94,22 @@ const SmNavbar = () => {
               </Button>
             </HoverCardTrigger>
             <HoverCardContent className=" w-[160px]  text-sm text-center ">
-              <div className="flex justify-center gap-2">
-                <p className="hover:text-[#ff950a] cursor-pointer ">LOGIN</p>
-                <p>|</p>
-                <p className="hover:text-[#ff950a]  cursor-pointer">SIGNUP</p>
-              </div>
+              {user ? (
+                <div>
+                  <p
+                    className="hover:text-[#ff950a] cursor-pointer "
+                    onClick={handleLogout}
+                  >
+                    LOGOUT
+                  </p>
+                </div>
+              ) : (
+                <div className="flex justify-center gap-2">
+                  <p className="hover:text-[#ff950a] cursor-pointer ">LOGIN</p>
+                  <p>|</p>
+                  <p className="hover:text-[#ff950a]  cursor-pointer">SIGNUP</p>
+                </div>
+              )}
             </HoverCardContent>
           </HoverCard>
         </div>

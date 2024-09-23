@@ -7,16 +7,29 @@ import {
 } from "@/components/ui/hover-card";
 import { Link, useLocation } from "react-router-dom";
 import { Button } from "@/components/ui/button";
+import { useAppDispatch, useAppSelector } from "@/redux/hook";
+import { logOut } from "@/redux/features/Auth/authSlice";
 
 const XlNavbar = () => {
+  const location = useLocation();
+  const { user } = useAppSelector((store) => store.auth);
+  const dashboardLink =
+    user?.role === "admin" ? "/admin-dashboard" : "/user-dashboard";
+
+  const dispatch = useAppDispatch();
+
+  const handleLogout = () => {
+    dispatch(logOut());
+  };
+
   const Links = [
     { name: "HOME", link: "/" },
     { name: "BIKE LIST", link: "/bike" },
-    { name: "DASHBOARD", link: "/dashboard" },
+    ...(user ? [{ name: "DASHBOARD", link: dashboardLink }] : []), //The spread operator is used here to merge arrays conditionally.
     { name: "ABOUT US", link: "/about" },
     { name: "BLOG", link: "/blog" },
   ];
-  const location = useLocation();
+
   return (
     <div className="">
       <div className="flex justify-between items-center ">
@@ -63,11 +76,30 @@ const XlNavbar = () => {
                 </Button>
               </HoverCardTrigger>
               <HoverCardContent className="xl:w-[170px] w-[160px] xl:text-base text-sm text-center ">
-                <div className="flex justify-center gap-2">
-                  <p className="hover:text-[#ff950a] cursor-pointer ">LOGIN</p>
-                  <p>|</p>
-                  <p className="hover:text-[#ff950a]  cursor-pointer">SIGNUP</p>
-                </div>
+                {user ? (
+                  <div>
+                    <p
+                      className="hover:text-[#ff950a] cursor-pointer "
+                      onClick={handleLogout}
+                    >
+                      LOGOUT
+                    </p>
+                  </div>
+                ) : (
+                  <div className="flex justify-center gap-2">
+                    <Link to={"/login"}>
+                      <p className="hover:text-[#ff950a] cursor-pointer ">
+                        LOGIN
+                      </p>
+                    </Link>
+                    <p>|</p>
+                    <Link to={"signup"}>
+                      <p className="hover:text-[#ff950a]  cursor-pointer">
+                        SIGNUP
+                      </p>
+                    </Link>
+                  </div>
+                )}
               </HoverCardContent>
             </HoverCard>
           </div>

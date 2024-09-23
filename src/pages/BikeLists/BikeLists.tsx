@@ -81,6 +81,8 @@ const BikeLists = () => {
     sortBy,
     isAvailable: isAvailable ?? undefined,
     brand: brand ?? undefined,
+    minPrice: minPrice ?? undefined,
+    maxPrice: maxPrice ?? undefined,
     page: currentPage,
   });
 
@@ -127,6 +129,7 @@ const BikeLists = () => {
 
   const totalPages = data?.data?.totalPages || 1;
   const handlePageChange = (newPage: number) => {
+    //This function ensures that the page number is within a valid range (between 1 and totalPages).
     if (newPage >= 1 && newPage <= totalPages) {
       setCurrentPage(newPage);
     }
@@ -923,8 +926,8 @@ const BikeLists = () => {
               <PaginationItem key={index}>
                 <PaginationLink
                   href="#"
-                  isActive={currentPage === index + 1}
-                  onClick={() => handlePageChange(index + 1)}
+                  isActive={currentPage === index + 1} // Marks the current page as active
+                  onClick={() => handlePageChange(index + 1)} // Change to clicked page
                 >
                   {index + 1}
                 </PaginationLink>

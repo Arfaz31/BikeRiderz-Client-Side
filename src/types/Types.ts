@@ -27,3 +27,11 @@ export type TBike = {
   headLamp: string;
   indicator: string;
 };
+
+export type Tuser = {
+  name: string;
+  email: string;
+  password: string;
+  phone: string;
+  address: string;
+};

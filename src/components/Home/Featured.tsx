@@ -4,6 +4,8 @@ import { TBike } from "@/types/Types";
 import FeaturedProductCard from "./FeaturedProductCard";
 import Lottie from "lottie-react";
 import bikelottie from "@/assets/lottie/bikelottie.json";
+import { Link } from "react-router-dom";
+import { ArrowRight } from "lucide-react";
 const Featured = () => {
   const { data, isLoading } = useGetAllBikesQuery(undefined);
 
@@ -34,6 +36,18 @@ const Featured = () => {
                 .map((item: TBike) => (
                   <FeaturedProductCard key={item._id} item={item} />
                 ))}
+        </div>
+
+        <div className="mt-20 flex items-center justify-center">
+          <Link to={`/bike`}>
+            <button className="flex text-lg items-center justify-center bg-[#ffa633] text-white w-[150px] h-13 p-3  relative group overflow-hidden">
+              <span className="relative z-10">View More</span>
+              <span className="relative z-10">
+                <ArrowRight />
+              </span>
+              <span className="absolute inset-0 bg-[#ff950a] transition-all duration-300 transform -translate-x-full group-hover:translate-x-0"></span>
+            </button>
+          </Link>
         </div>
       </Container>
     </div>
