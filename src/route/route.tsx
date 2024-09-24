@@ -1,8 +1,10 @@
 import App from "@/App";
 import DashboardLayout from "@/components/Layout/DashboardLayout/DashboardLayout";
+import ProtectedRoute from "@/components/Shared/ProtectedRoute";
 import AboutUs from "@/pages/AboutUS/AboutUs";
 import BikeLists from "@/pages/BikeLists/BikeLists";
 import Blog from "@/pages/Blog/Blog";
+import Checkout from "@/pages/CheckOut/Checkout";
 import AdminDashboard from "@/pages/Dashboard/Admin/AdminDashboard";
 import AdminProfile from "@/pages/Dashboard/Admin/AdminProfile";
 import ManageBikes from "@/pages/Dashboard/Admin/ManageBikes/ManageBikes";
@@ -46,6 +48,14 @@ const router = createBrowserRouter([
       {
         path: "singleProduct/:id",
         element: <SingleProduct />,
+      },
+      {
+        path: "checkout",
+        element: (
+          <ProtectedRoute>
+            <Checkout />
+          </ProtectedRoute>
+        ),
       },
     ],
   },

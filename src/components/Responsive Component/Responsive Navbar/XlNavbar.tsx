@@ -5,13 +5,15 @@ import {
   HoverCardContent,
   HoverCardTrigger,
 } from "@/components/ui/hover-card";
-import { Link, useLocation } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { useAppDispatch, useAppSelector } from "@/redux/hook";
 import { logOut } from "@/redux/features/Auth/authSlice";
+import { toast } from "sonner";
 
 const XlNavbar = () => {
   const location = useLocation();
+  const navigate = useNavigate();
   const { user } = useAppSelector((store) => store.auth);
   const dashboardLink =
     user?.role === "admin" ? "/admin-dashboard" : "/user-dashboard";
@@ -20,6 +22,8 @@ const XlNavbar = () => {
 
   const handleLogout = () => {
     dispatch(logOut());
+    toast.success("You are logged out");
+    navigate("/login");
   };
 
   const Links = [

@@ -8,7 +8,7 @@ import { Link } from "react-router-dom";
 
 const FeaturedProductCard = ({ item }: { item: TBike }) => {
   return (
-    <div className=" px-3 pt-4 w-[305px] h-[480px] border border-gray-300 hover:shadow-xl relative group overflow-hidden mx-auto">
+    <div className=" px-3 pt-4 w-[315px] h-[480px] border border-gray-300 hover:shadow-xl relative group overflow-hidden mx-auto">
       <img
         src={item.image[0]}
         className="w-[290px] h-[210px] object-center object-cover transition-transform duration-500 ease-in-out group-hover:scale-110 pb-4"
@@ -51,7 +51,7 @@ const FeaturedProductCard = ({ item }: { item: TBike }) => {
         <div>
           <p className="text-base text-gray-500">
             <span className="text-lg font-bold text-black">
-              ${item.pricePerHour}
+              {item.pricePerHour}Tk
             </span>{" "}
             / Hour
           </p>

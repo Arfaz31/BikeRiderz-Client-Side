@@ -29,9 +29,22 @@ export type TBike = {
 };
 
 export type Tuser = {
+  id?: string;
   name: string;
   email: string;
   password: string;
   phone: string;
   address: string;
+};
+
+export type TBooking = {
+  _id: string;
+  userId: Tuser;
+  bikeId: TBike;
+  startTime: string;
+  returnTime: string;
+  totalCost: number;
+  isReturned: boolean;
+  isPaid: boolean;
+  advancedPayment: number;
 };

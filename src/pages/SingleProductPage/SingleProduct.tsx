@@ -13,7 +13,7 @@ import {
   FaMotorcycle,
   FaSafari,
 } from "react-icons/fa6";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import {
   Dialog,
   DialogContent,
@@ -25,6 +25,9 @@ import {
 import { SubmitHandler, useForm } from "react-hook-form";
 import sectionbg from "@/assets/hero-bg/vectorBg.jpg";
 import user from "@/assets/testimonials/user1.jpg";
+import { useAppDispatch } from "@/redux/hook";
+import { bookingNow } from "@/redux/features/BookNow/bookNow";
+import { DialogTitle } from "@radix-ui/react-dialog";
 type bookingInput = {
   startTime: string;
 };
@@ -33,8 +36,10 @@ const SingleProduct = () => {
   const { id } = useParams();
   const [activeTab, setActiveTab] = useState("description");
   const [selectedImage, setSelectedImage] = useState<string>("");
+  const navigate = useNavigate();
   const { data, isLoading } = useGetSingleBikesQuery(id);
-  console.log(data);
+  const dispatch = useAppDispatch();
+
   const item = data?.data;
   useEffect(() => {
     // Reset the selected image whenever the id changes
@@ -50,26 +55,23 @@ const SingleProduct = () => {
     setActiveTab(tab);
   };
   const { register, handleSubmit } = useForm<bookingInput>();
-  const onSubmit: SubmitHandler<bookingInput> = async (formData) => {
-    console.log(data);
+
+  const onSubmit: SubmitHandler<bookingInput> = (formData) => {
     // Convert local datetime to ISO 8601 format
     const startTimeISO = new Date(formData.startTime).toISOString();
     console.log(startTimeISO);
-    // try {
-    //   console.log(data);
 
-    //   if (data) {
-    //     toast.success("Your message is submitted successfully");
-    //   }
-    // } catch (err) {
-    //   toast.error("Failed to send message");
-    //   console.log(err);
-    // } finally {
-    //   reset();
-    // }
+    const bike = {
+      bikeId: id || "",
+      startTime: startTimeISO,
+    };
+    dispatch(bookingNow(bike));
+    navigate("/checkout");
   };
+
   const bikeDetails = [
     {
+      id: 1,
       icon: (className: string) => <FaSafari className={className} />,
       title: "Mileage",
       data: (className: string) => (
@@ -77,6 +79,7 @@ const SingleProduct = () => {
       ),
     },
     {
+      id: 2,
       icon: (className: string) => <FaBolt className={className} />,
       title: "Power",
       data: (className: string) => (
@@ -84,6 +87,7 @@ const SingleProduct = () => {
       ),
     },
     {
+      id: 3,
       icon: (className: string) => <LifeBuoy className={className} />,
       title: "Tyre",
       data: (className: string) => (
@@ -91,6 +95,7 @@ const SingleProduct = () => {
       ),
     },
     {
+      id: 4,
       icon: (className: string) => <FaCompactDisc className={className} />,
       title: "Brakes",
       data: (className: string) => (
@@ -224,7 +229,10 @@ const SingleProduct = () => {
 
             <div className="flex xl:gap-8 sm:gap-5 gap-3 mb-12">
               {bikeDetails.map((bike) => (
-                <div className="bg-[#ff950a] md:w-24 w-[100px] h-28 rounded-lg  text-white flex flex-col items-center justify-center gap-1 shadow-lg   py-3">
+                <div
+                  className="bg-[#ff950a] md:w-24 w-[100px] h-28 rounded-lg  text-white flex flex-col items-center justify-center gap-1 shadow-lg py-3"
+                  key={bike.id}
+                >
                   <span>{bike.icon("w-8 h-8 text-white")}</span>
                   <p className="text-sm">{bike.title}</p>
                   <p className="lg:text-base text-sm">
@@ -237,13 +245,22 @@ const SingleProduct = () => {
             <div>
               <Dialog>
                 <DialogTrigger asChild>
-                  <button className="flex lg:text-xl text-lg items-center justify-center bg-[#ffa633] text-white lg:w-[150px] w-[130px] h-14 p-3  relative group overflow-hidden">
+                  <button
+                    className="flex lg:text-xl text-lg items-center justify-center bg-[#ffa633] text-white lg:w-[150px] w-[130px] h-14 p-3  relative group overflow-hidden"
+                    disabled={item?.isAvailable === false}
+                    title={
+                      item?.isAvailable === false
+                        ? "Bike is already on rent"
+                        : ""
+                    }
+                  >
                     <span className="relative z-10">Book Now</span>
                     <span className="absolute inset-0 bg-[#ff950a] transition-all duration-300 transform -translate-x-full group-hover:translate-x-0"></span>
                   </button>
                 </DialogTrigger>
                 <DialogContent className="sm:max-w-[425px]">
                   <DialogHeader>
+                    <DialogTitle>Booking Info.</DialogTitle>
                     <DialogDescription>
                       Please enter the start time to start your booking process.
                     </DialogDescription>
@@ -259,7 +276,11 @@ const SingleProduct = () => {
                       </div>
                     </div>
                     <DialogFooter>
-                      <button className="flex text-sm items-center justify-center bg-[#ffa633] text-white w-[120px] h-11 p-3  relative group overflow-hidden">
+                      <button
+                        className="flex text-sm items-center justify-center bg-[#ffa633] text-white w-[120px] h-11 p-3  relative group overflow-hidden"
+                        type="submit"
+                        disabled={item?.isAvailable === false}
+                      >
                         <span className="relative z-10">Pay Now</span>
                         <span className="absolute inset-0 bg-[#ff950a] transition-all duration-300 transform -translate-x-full group-hover:translate-x-0"></span>
                       </button>
