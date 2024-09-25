@@ -46,7 +46,7 @@ const bikeApi = baseApi.injectEndpoints({
         if (searchTerm) {
           params.append("searchTerm", searchTerm);
         }
-        if (isAvailable) {
+        if (isAvailable && isAvailable !== "all") {
           params.append("isAvailable", isAvailable);
         }
         if (minPrice !== undefined) {
@@ -55,7 +55,7 @@ const bikeApi = baseApi.injectEndpoints({
         if (maxPrice !== undefined) {
           params.append("maxPrice", maxPrice.toString());
         }
-        if (brand) {
+        if (brand && brand !== "All Brands") {
           params.append("brand", brand);
         }
         params.append("page", page.toString());

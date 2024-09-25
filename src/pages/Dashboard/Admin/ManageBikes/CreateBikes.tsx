@@ -12,7 +12,7 @@ import Lottie from "lottie-react";
 import spinner from "@/assets/lottie/spinner.json";
 import { useForm, SubmitHandler } from "react-hook-form";
 import { TBike } from "@/types/Types";
-import InputField from "@/pages/User Authentication/InputField";
+import InputField from "@/pages/InputFields/InputField";
 import { useCreateBikeMutation } from "@/redux/api/BikeApi/bikeApi";
 import { bikeFields } from "./BikeFormFileds";
 
@@ -70,7 +70,7 @@ const CreateBikes = () => {
               <span className="absolute inset-0 bg-[#ff950a] transition-all duration-300 transform -translate-x-full group-hover:translate-x-0"></span>
             </button>
           </DialogTrigger>
-          <DialogContent className="sm:max-w-[470px] overflow-y-scroll h-[600px]">
+          <DialogContent className="sm:max-w-[470px] overflow-y-scroll xl:h-[600px] h-[450px]">
             <DialogHeader>
               <DialogTitle>Add A Bike</DialogTitle>
               <DialogDescription>

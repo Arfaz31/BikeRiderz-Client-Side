@@ -22,10 +22,10 @@ const UserManagement = () => {
   };
 
   return (
-    <div className="bg-white shadow-md w-full  overflow-x-scroll overflow-y-scroll h-[500px]  relative">
+    <div className="bg-white shadow-md w-full  overflow-x-scroll pb-12    relative">
       {/* Header Section */}
       <div className="flex items-center justify-between md:px-8 px-4 py-8 relative">
-        <p className="text-2xl font-bold">User List</p>
+        <p className="sm:text-2xl text-xl font-bold">User List</p>
         <button
           className="flex text-lg items-center justify-center gap-2 bg-[#ffa633] text-white w-[120px] h-11 p-3 relative group overflow-hidden"
           onClick={toggleDropdown}
@@ -37,7 +37,7 @@ const UserManagement = () => {
 
         {/* Dropdown Modal */}
         <div
-          className={`absolute top-10 right-0    w-[250px] h-[180px] bg-gray-200 rounded-md shadow-md p-6 transition-all duration-300 ease-in-out transform ${
+          className={`absolute top-10 right-0 border-t-2 border-[#ff2a2a]   w-[250px] h-[180px] bg-yellow-50 shadow-xl  rounded-md  p-6 transition-all duration-300 ease-in-out transform ${
             isDropdownOpen
               ? "opacity-100 scale-100 translate-y-9 "
               : "opacity-0 scale-95 -translate-y-2 pointer-events-none"

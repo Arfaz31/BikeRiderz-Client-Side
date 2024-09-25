@@ -3,7 +3,7 @@ import logo from "@/assets/logo/bikeLogo3.png";
 import { Tuser } from "@/types/Types";
 import { useForm, SubmitHandler } from "react-hook-form";
 import { Link, useNavigate } from "react-router-dom";
-import InputField from "../InputField";
+import InputField from "../../InputFields/InputField";
 import { toast } from "sonner";
 import { useLogINMutation } from "@/redux/api/AuthApi/authApi";
 import Lottie from "lottie-react";

@@ -10,7 +10,8 @@ import {
 } from "@/components/ui/table";
 
 import { TBike } from "@/types/Types";
-import { FilePenLine, Trash2 } from "lucide-react";
+import UpdateBike from "./UpdateBike";
+import { Trash2 } from "lucide-react";
 
 const ManageBikesTable = ({
   bikes,
@@ -20,25 +21,29 @@ const ManageBikesTable = ({
   isLoading: boolean;
 }) => {
   return (
-    <div className="xl:w-full w-[850px] ">
+    <div className="xl:w-full w-[900px] ">
       <Table>
         <TableHeader>
           <TableRow>
-            <TableHead className="font-bold text-lg">Image</TableHead>
-            <TableHead className="font-bold text-lg">Name</TableHead>
-            <TableHead className="font-bold text-lg">Brand</TableHead>
-            <TableHead className="font-bold text-lg">Model</TableHead>
-            <TableHead className="font-bold text-lg">PricePerHour</TableHead>
-            <TableHead className="font-bold text-lg">CC</TableHead>
-            <TableHead className="font-bold text-lg">Power</TableHead>
-            <TableHead className="font-bold text-lg">Availability</TableHead>
-            <TableHead className="font-bold text-lg">Action</TableHead>
+            <TableHead className="font-semibold text-base">Image</TableHead>
+            <TableHead className="font-semibold text-base">Name</TableHead>
+            <TableHead className="font-semibold text-base">Brand</TableHead>
+            <TableHead className="font-semibold text-base">Model</TableHead>
+            <TableHead className="font-semibold text-base">
+              PricePerHour
+            </TableHead>
+            <TableHead className="font-semibold text-base">CC</TableHead>
+            <TableHead className="font-semibold text-base">Power</TableHead>
+            <TableHead className="font-semibold text-base">
+              Availability
+            </TableHead>
+            <TableHead className="font-semibold text-base">Action</TableHead>
           </TableRow>
         </TableHeader>
         <TableBody>
           {isLoading ? (
             <TableRow>
-              <TableCell colSpan={6} className="text-center pt-20">
+              <TableCell colSpan={9} className="text-center pt-20">
                 <div className="  flex items-center justify-center w-full h-14 ">
                   <Lottie animationData={spinner} loop={true} />
                 </div>
@@ -68,12 +73,9 @@ const ManageBikesTable = ({
                 </TableCell>
 
                 <TableCell className="flex items-center gap-2">
-                  <button className="flex  items-center justify-center  bg-[#24eb45]   p-3 relative group overflow-hidden">
-                    <FilePenLine className="text-white w-6 h-6 z-10" />
-                    <span className="absolute inset-0 bg-[#14b12e] transition-all duration-300 transform -translate-x-full group-hover:translate-x-0"></span>
-                  </button>
-                  <button className="flex  items-center justify-center  bg-[#ff3434] text-white  p-3 relative group overflow-hidden">
-                    <Trash2 className="text-white w-6 h-6 z-10" />
+                  <UpdateBike bike={bike} />
+                  <button className="flex  items-center justify-center rounded-md  bg-[#ff3434] text-white  p-3 relative group overflow-hidden">
+                    <Trash2 className="text-white w-5 h-5 z-10" />
                     <span className="absolute inset-0 bg-[#ff1717] transition-all duration-300 transform -translate-x-full group-hover:translate-x-0"></span>
                   </button>
                 </TableCell>

@@ -1,4 +1,3 @@
-import Container from "@/components/Shared/Container";
 import { AlignJustify, Mail, Search } from "lucide-react";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import { Link } from "react-router-dom";
@@ -15,7 +14,7 @@ const TopNav = () => {
   const { data } = useGetSingleUserQuery(id);
   return (
     <div className="h-[80px] w-full bg-[#eff2f6]  shadow-md sticky top-0 z-50  pt-3">
-      <Container className="md:px-4 px-0">
+      <div className="md:px-4 px-0">
         <div className="flex justify-between items-center ">
           <div className="lg:hidden block">
             <div className="flex items-center justify-center ">
@@ -76,7 +75,7 @@ const TopNav = () => {
             </div>
           </div>
         </div>
-      </Container>
+      </div>
     </div>
   );
 };
