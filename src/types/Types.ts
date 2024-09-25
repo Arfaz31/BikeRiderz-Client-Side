@@ -1,5 +1,5 @@
 export type TBike = {
-  _id?: string;
+  _id: string;
   name: string;
   image: string[];
   description: string;
@@ -28,11 +28,17 @@ export type TBike = {
   indicator: string;
 };
 
+export const USER_Role = {
+  admin: "admin",
+  user: "user",
+} as const;
+
 export type Tuser = {
-  id?: string;
+  _id: string;
   name: string;
   email: string;
   password: string;
+  role: keyof typeof USER_Role;
   phone: string;
   address: string;
 };

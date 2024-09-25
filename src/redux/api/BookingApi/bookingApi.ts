@@ -22,6 +22,15 @@ const bookingApi = baseApi.injectEndpoints({
       },
       providesTags: ["Rental"],
     }),
+    getAllBookings: builder.query({
+      query: () => {
+        return {
+          url: "/api/rentals",
+          method: "GET",
+        };
+      },
+      providesTags: ["Rental"],
+    }),
 
     updateIsPaid: builder.mutation({
       query: ({ id }) => {
@@ -38,5 +47,6 @@ const bookingApi = baseApi.injectEndpoints({
 export const {
   useCreateBookingsMutation,
   useGetMyAllBookingsQuery,
+  useGetAllBookingsQuery,
   useUpdateIsPaidMutation,
 } = bookingApi;

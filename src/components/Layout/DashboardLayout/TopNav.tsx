@@ -14,7 +14,7 @@ const TopNav = () => {
   const id = user?._id;
   const { data } = useGetSingleUserQuery(id);
   return (
-    <div className="h-[72px] w-full bg-[#eff2f6]  shadow-md sticky top-0 z-20  pt-3">
+    <div className="h-[80px] w-full bg-[#eff2f6]  shadow-md sticky top-0 z-50  pt-3">
       <Container className="md:px-4 px-0">
         <div className="flex justify-between items-center ">
           <div className="lg:hidden block">
@@ -39,7 +39,7 @@ const TopNav = () => {
             </div>
           </div>
           <div className="lg:block hidden">
-            <div className="flex items-center justify-center gap-1">
+            <div className="flex items-center  gap-1">
               <p className="text-lg ">Welcome {data?.data?.name} </p>
               <div className=" ">
                 <Lottie
@@ -49,6 +49,9 @@ const TopNav = () => {
                 />
               </div>
             </div>
+            <p className="text-sm text-gray-500 ">
+              Here's what's happening with your store today.
+            </p>
           </div>
           <div className="lg:hidden sm:block hidden">
             <Link className="flex items-center justify-center gap-1 " to="/">

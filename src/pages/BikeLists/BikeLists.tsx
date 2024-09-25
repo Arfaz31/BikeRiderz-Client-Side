@@ -1,14 +1,14 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 
 import { Search, SlidersHorizontal } from "lucide-react";
-import {
-  Pagination,
-  PaginationContent,
-  PaginationItem,
-  PaginationLink,
-  PaginationNext,
-  PaginationPrevious,
-} from "@/components/ui/pagination";
+// import {
+//   Pagination,
+//   PaginationContent,
+//   PaginationItem,
+//   PaginationLink,
+//   PaginationNext,
+//   PaginationPrevious,
+// } from "@/components/ui/pagination";
 import { useForm } from "react-hook-form";
 import bikes from "@/assets/blog/topBike.jpg";
 import { useGetAllBikesQuery } from "@/redux/api/BikeApi/bikeApi";
@@ -33,6 +33,7 @@ import {
 } from "@/components/ui/sheet";
 import { useSearchParams } from "react-router-dom";
 import { Button } from "@/components/ui/button";
+import Paginationpage from "@/components/Shared/Paginationpage";
 
 const options: Array<{ value: string; label: string }> = [
   { value: "price-low-high", label: "Lowest to Highest" },
@@ -903,7 +904,7 @@ const BikeLists = () => {
       </Container>
 
       {/* pagination */}
-      <div className="pt-24 overflow-x-hidden ">
+      {/* <div className="pt-24 overflow-x-hidden ">
         <Pagination>
           <PaginationContent>
             <PaginationItem>
@@ -953,6 +954,13 @@ const BikeLists = () => {
             </PaginationItem>
           </PaginationContent>
         </Pagination>
+      </div> */}
+      <div>
+        <Paginationpage
+          handlePageChange={handlePageChange}
+          totalPages={totalPages}
+          currentPage={currentPage}
+        />
       </div>
     </div>
   );

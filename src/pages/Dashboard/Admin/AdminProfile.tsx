@@ -1,7 +1,9 @@
+import UserProfile from "../User/UserProfile";
+
 const AdminProfile = () => {
   return (
     <div>
-      <h1>admin profile</h1>
+      <UserProfile />
     </div>
   );
 };

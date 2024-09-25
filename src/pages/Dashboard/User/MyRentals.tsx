@@ -123,6 +123,12 @@ const MyRentals = () => {
                             <button
                               className="flex text-sm items-center justify-center gap-2 bg-[#ffa633] text-white w-[120px] h-11 p-3 relative group overflow-hidden"
                               onClick={() => handlePayment(rent)}
+                              disabled={rent?.returnTime === null}
+                              title={
+                                rent?.returnTime === null
+                                  ? "Return Time has not been submitted yet "
+                                  : ""
+                              }
                             >
                               <span className="relative z-10">Pay Now</span>
                               <span className="relative z-10">
