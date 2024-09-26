@@ -10,7 +10,7 @@ const FeaturedProductCard = ({ item }: { item: TBike }) => {
   return (
     <div className=" px-3 pt-4 xl:w-[305px] w-[325px] h-[480px] border border-gray-300 hover:shadow-xl relative group overflow-hidden mx-auto">
       <img
-        src={item.image[0]}
+        src={item?.image[0]}
         className="w-[290px] h-[210px] object-center object-cover transition-transform duration-500 ease-in-out group-hover:scale-110 pb-4"
         alt=""
       />
@@ -27,23 +27,23 @@ const FeaturedProductCard = ({ item }: { item: TBike }) => {
         </div>
         <p className="text-sm ">110 Reviews</p>
       </div>
-      <p className="text-xl font-bold pt-2 pb-4">{item.name}</p>
+      <p className="text-xl font-bold pt-2 pb-4">{item?.name}</p>
       <div className="flex space-x-5 items-center justify-center pb-7 pt-2">
         <div className="flex flex-col items-center justify-center">
           <img src={cc} alt="" className="w-7 h-7" />
-          <p className="pt-2 text-xs text-gray-500">{item.cc} Cc</p>
+          <p className="pt-2 text-xs text-gray-500">{item?.cc} Cc</p>
         </div>
         <div className="flex flex-col items-center justify-center">
           <img src={power} alt="" className="w-7 h-7" />
-          <p className="pt-2 text-xs text-gray-500">{item.power} BHP</p>
+          <p className="pt-2 text-xs text-gray-500">{item?.power} BHP</p>
         </div>
         <div className="flex flex-col items-center justify-center">
           <img src={mileage} alt="" className="w-7 h-7" />
-          <p className="pt-2 text-xs text-gray-500">{item.mileage} Kmpl</p>
+          <p className="pt-2 text-xs text-gray-500">{item?.mileage} Kmpl</p>
         </div>
         <div className="flex flex-col items-center justify-center">
           <img src={tyer} alt="" className="w-7 h-7" />
-          <p className="pt-2 text-xs text-gray-500">{item.tyreType}</p>
+          <p className="pt-2 text-xs text-gray-500">{item?.tyreType}</p>
         </div>
       </div>
 
@@ -51,7 +51,7 @@ const FeaturedProductCard = ({ item }: { item: TBike }) => {
         <div>
           <p className="xl:text-xs text-sm text-gray-500">
             <span className="text-base font-bold text-black">
-              {item.pricePerHour}Tk
+              {item?.pricePerHour}Tk
             </span>{" "}
             / Hour
           </p>

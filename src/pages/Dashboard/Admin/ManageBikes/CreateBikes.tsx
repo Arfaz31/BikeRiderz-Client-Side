@@ -78,7 +78,7 @@ const CreateBikes = () => {
               </DialogDescription>
             </DialogHeader>
             <form onSubmit={handleSubmit(onSubmit)}>
-              {bikeFields.map(({ name, placeholder, type }) => (
+              {bikeFields?.map(({ name, placeholder, type }) => (
                 <InputField<TBike>
                   key={name}
                   name={name as keyof TBike}

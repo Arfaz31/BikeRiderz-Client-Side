@@ -65,7 +65,7 @@ const UpdateBike = ({ bike }: { bike: TBike }) => {
             </DialogDescription>
           </DialogHeader>
           <form onSubmit={handleSubmit(onSubmit)}>
-            {bikeFields.map(({ name, label, placeholder, type }) => {
+            {bikeFields?.map(({ name, label, placeholder, type }) => {
               const value = bike[name as keyof TBike];
 
               return (

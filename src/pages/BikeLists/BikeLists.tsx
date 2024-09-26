@@ -485,7 +485,7 @@ const BikeLists = () => {
               </div>
               <div className="mt-7 md:mb-0 mb-10">
                 <div className="grid xl:grid-cols-3 lg:grid-cols-2 md:grid-cols-3 grid-cols-3 gap-3">
-                  {tags.map((tag, index) => (
+                  {tags?.map((tag, index) => (
                     <div
                       key={index}
                       className="border border-[#d4d5d5] rounded-full hover:bg-[#ff950a] hover:text-white p-2 cursor-pointer transition-all duration-500 ease-in-out"
@@ -829,7 +829,7 @@ const BikeLists = () => {
                               </div>
                               <div className="mt-7 md:mb-0 mb-10">
                                 <div className="grid xl:grid-cols-3 lg:grid-cols-2 md:grid-cols-3 grid-cols-3 gap-3">
-                                  {tags.map((tag, index) => (
+                                  {tags?.map((tag, index) => (
                                     <div
                                       key={index}
                                       className="border border-[#d4d5d5] rounded-full hover:bg-[#ff950a] hover:text-white p-2 cursor-pointer transition-all duration-500 ease-in-out"
@@ -903,58 +903,6 @@ const BikeLists = () => {
         </div>
       </Container>
 
-      {/* pagination */}
-      {/* <div className="pt-24 overflow-x-hidden ">
-        <Pagination>
-          <PaginationContent>
-            <PaginationItem>
-              <PaginationPrevious
-                href="#"
-                onClick={(e) => {
-                  if (currentPage === 1) {
-                    e.preventDefault();
-                  } else {
-                    handlePageChange(currentPage - 1);
-                  }
-                }}
-                className={
-                  currentPage === 1 ? "cursor-not-allowed opacity-50" : ""
-                }
-              />
-            </PaginationItem>
-
-            {Array.from({ length: totalPages }).map((_, index) => (
-              <PaginationItem key={index}>
-                <PaginationLink
-                  href="#"
-                  isActive={currentPage === index + 1} // Marks the current page as active
-                  onClick={() => handlePageChange(index + 1)} // Change to clicked page
-                >
-                  {index + 1}
-                </PaginationLink>
-              </PaginationItem>
-            ))}
-
-            <PaginationItem>
-              <PaginationNext
-                href="#"
-                onClick={(e) => {
-                  if (currentPage === totalPages) {
-                    e.preventDefault();
-                  } else {
-                    handlePageChange(currentPage + 1);
-                  }
-                }}
-                className={
-                  currentPage === totalPages
-                    ? "cursor-not-allowed opacity-50"
-                    : ""
-                }
-              />
-            </PaginationItem>
-          </PaginationContent>
-        </Pagination>
-      </div> */}
       <div>
         <Paginationpage
           handlePageChange={handlePageChange}

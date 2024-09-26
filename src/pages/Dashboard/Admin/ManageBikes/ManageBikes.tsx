@@ -79,7 +79,7 @@ const ManageBikes = () => {
                   onChange={(e) => handleBrandChange(e.target.value)}
                   className="border border-[#ff950a] cursor-pointer focus:outline-none focus:border-[#ffa633] sm:min-w-[180px] h-12 px-3 md:text-lg text-base "
                 >
-                  {brands.map((brand) => (
+                  {brands?.map((brand) => (
                     <option key={brand} value={brand}>
                       {brand}
                     </option>

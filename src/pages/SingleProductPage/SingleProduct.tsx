@@ -205,16 +205,16 @@ const SingleProduct = () => {
             <div className="mt-6 mb-10 ">
               <ul className="list-disc pl-5 space-y-3">
                 <li className="md:text-xl textlg font-semibold">
-                  Brand: <span className=" font-normal">{item.brand}</span>
+                  Brand: <span className=" font-normal">{item?.brand}</span>
                 </li>
                 <li className="md:text-xl textlg font-semibold">
-                  Model: <span className=" font-normal">{item.model}</span>
+                  Model: <span className=" font-normal">{item?.model}</span>
                 </li>
                 <li className="md:text-xl textlg font-semibold">
-                  Made In: <span className=" font-normal">{item.madeIn}</span>
+                  Made In: <span className=" font-normal">{item?.madeIn}</span>
                 </li>
                 <li className="md:text-xl textlg font-semibold">
-                  Year: <span className=" font-normal">{item.year}</span>
+                  Year: <span className=" font-normal">{item?.year}</span>
                 </li>
                 <li className="md:text-xl textlg font-semibold">
                   Availability:{" "}
@@ -228,15 +228,15 @@ const SingleProduct = () => {
             </div>
 
             <div className="flex xl:gap-8 sm:gap-5 gap-3 mb-12">
-              {bikeDetails.map((bike) => (
+              {bikeDetails?.map((bike) => (
                 <div
                   className="bg-[#ff950a] md:w-24 w-[100px] h-28 rounded-lg  text-white flex flex-col items-center justify-center gap-1 shadow-lg py-3"
-                  key={bike.id}
+                  key={bike?.id}
                 >
-                  <span>{bike.icon("w-8 h-8 text-white")}</span>
-                  <p className="text-sm">{bike.title}</p>
+                  <span>{bike?.icon("w-8 h-8 text-white")}</span>
+                  <p className="text-sm">{bike?.title}</p>
                   <p className="lg:text-base text-sm">
-                    {bike.data("text-white")}
+                    {bike?.data("text-white")}
                   </p>
                 </div>
               ))}

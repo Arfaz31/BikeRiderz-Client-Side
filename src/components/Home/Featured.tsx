@@ -34,7 +34,7 @@ const Featured = () => {
             : data?.data?.bikes
                 ?.slice(0, 8)
                 .map((item: TBike) => (
-                  <FeaturedProductCard key={item._id} item={item} />
+                  <FeaturedProductCard key={item?._id} item={item} />
                 ))}
         </div>
 

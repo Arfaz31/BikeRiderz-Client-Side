@@ -109,19 +109,21 @@ const MyRentals = () => {
                     </TableRow>
                   ) : (
                     myRentals?.data
-                      ?.filter((rent: TBooking) => !rent.isPaid)
+                      ?.filter((rent: TBooking) => !rent?.isPaid)
                       .map((rent: TBooking, index: number) => (
                         <TableRow key={rent._id || `unpaid-${index}`}>
-                          <TableCell>{rent.bikeId.name}</TableCell>
+                          ?<TableCell>{rent?.bikeId.name}</TableCell>
                           <TableCell className="">
-                            {new Date(rent.startTime).toLocaleString()}
+                            {new Date(rent?.startTime).toLocaleString()}
                           </TableCell>
                           <TableCell className="">
-                            {rent.isReturned
-                              ? new Date(rent.returnTime).toLocaleString()
+                            {rent?.isReturned
+                              ? new Date(rent?.returnTime).toLocaleString()
                               : "Not Returned"}
                           </TableCell>
-                          <TableCell className="">{rent.totalCost}Tk</TableCell>
+                          <TableCell className="">
+                            {rent?.totalCost}Tk
+                          </TableCell>
                           <TableCell className="text-red-500">
                             ${!rent?.isPaid ? "Unpaid" : ""}
                           </TableCell>
@@ -186,7 +188,7 @@ const MyRentals = () => {
                             {new Date(rental?.startTime).toLocaleString()}
                           </TableCell>
                           <TableCell>
-                            {rental.isReturned
+                            {rental?.isReturned
                               ? new Date(rental?.returnTime).toLocaleString()
                               : "Not Returned"}
                           </TableCell>

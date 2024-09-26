@@ -72,15 +72,15 @@ const UserManagementTable = ({ role }: { role: string }) => {
             </TableRow>
           ) : (
             users?.data?.map((user: Tuser) => (
-              <TableRow key={user._id}>
-                <TableCell>{user.name}</TableCell>
-                <TableCell>{user.email}</TableCell>
-                <TableCell>{user.phone}</TableCell>
-                <TableCell>{user.address}</TableCell>
-                <TableCell>{user.role}</TableCell>
+              <TableRow key={user?._id}>
+                <TableCell>{user?.name}</TableCell>
+                <TableCell>{user?.email}</TableCell>
+                <TableCell>{user?.phone}</TableCell>
+                <TableCell>{user?.address}</TableCell>
+                <TableCell>{user?.role}</TableCell>
 
                 <TableCell>
-                  {loadingRef.current[user._id] ? (
+                  {loadingRef.current[user?._id] ? (
                     <div className="border border-[#ff950a] shadow-xl flex items-center justify-center w-[120px] h-12 p-3">
                       <Lottie animationData={spinner} loop={true} />
                     </div>

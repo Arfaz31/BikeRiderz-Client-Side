@@ -76,7 +76,7 @@ const ManageBikesTable = ({
             </TableRow>
           ) : (
             bikes?.map((bike: TBike) => (
-              <TableRow key={bike._id}>
+              <TableRow key={bike?._id}>
                 <TableCell>
                   <img
                     src={bike?.image[0]}
@@ -84,14 +84,14 @@ const ManageBikesTable = ({
                     alt=""
                   />
                 </TableCell>
-                <TableCell>{bike.name}</TableCell>
-                <TableCell>{bike.brand}</TableCell>
-                <TableCell>{bike.model}</TableCell>
+                <TableCell>{bike?.name}</TableCell>
+                <TableCell>{bike?.brand}</TableCell>
+                <TableCell>{bike?.model}</TableCell>
                 <TableCell className="text-center">
-                  {bike.pricePerHour}
+                  {bike?.pricePerHour}
                 </TableCell>
-                <TableCell>{bike.cc}Cc</TableCell>
-                <TableCell className="text-center">{bike.power}BHP</TableCell>
+                <TableCell>{bike?.cc}Cc</TableCell>
+                <TableCell className="text-center">{bike?.power}BHP</TableCell>
                 <TableCell>
                   <span
                     className={
@@ -108,7 +108,7 @@ const ManageBikesTable = ({
                     className={` flex  items-center justify-center rounded-md  bg-[#ff3434] text-white  p-3 relative group overflow-hidden`}
                     onClick={() => {
                       setIsDialogOpen(true);
-                      setBikeToDelete(bike._id);
+                      setBikeToDelete(bike?._id);
                     }}
                   >
                     <Trash2 className="text-white w-5 h-5 z-10" />
@@ -126,7 +126,7 @@ const ManageBikesTable = ({
         onCancel={() => setIsDialogOpen(false)}
         bikeName={
           bikeToDelete
-            ? bikes.find((bike) => bike._id === bikeToDelete)?.name || ""
+            ? bikes?.find((bike) => bike?._id === bikeToDelete)?.name || ""
             : ""
         }
         isDeleteLoading={isDeleteLoading}

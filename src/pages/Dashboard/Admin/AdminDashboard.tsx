@@ -47,16 +47,16 @@ const AdminDashboard = () => {
   return (
     <div className="my-12 mx-8">
       <div className="flex md:flex-row flex-col gap-8 items-center justify-center">
-        {cardData.map((card, index) => (
+        {cardData?.map((card, index) => (
           <div
             key={index}
             className="xl:w-[280px] xl:h-[200px] md:w-[320px] w-[300px] h-[220px] py-5 bg-white shadow-md border-t-2 border-[#8baaf3] flex flex-col items-center justify-center"
           >
-            <div className="bg-[#2b2b5e] rounded-full p-3">{card.icon}</div>
+            <div className="bg-[#2b2b5e] rounded-full p-3">{card?.icon}</div>
             <p className="xl:text-2xl text-xl font-bold pt-4 pb-2">
-              {card.value}
+              {card?.value}
             </p>
-            <p className="text-base text-gray-500">{card.label}</p>
+            <p className="text-base text-gray-500">{card?.label}</p>
           </div>
         ))}
       </div>

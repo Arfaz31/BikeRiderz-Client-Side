@@ -68,11 +68,11 @@ const Blog = () => {
           for you!
         </p>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:gap-8 lg:gap-5 ">
-          {blogData.map((blog) => (
+          {blogData?.map((blog) => (
             <div className=" relative group h-[600px]" key={blog.id}>
               {/* image div */}
               <div className="relative overflow-hidden group xl:w-[390px] xl:h-[300px] lg:w-[300px] lg:h-[280px] md:w-[320px] sm:w-[350px] w-[320px] h-[300px] rounded-xl mx-auto">
-                {blog.image(
+                {blog?.image(
                   "xl:h-[300px] lg:h-[280px] h-[300px]  w-full  group-hover:scale-110 transition-transform duration-500 object-cover object-center rounded-xl"
                 )}
                 <div className="bg-[#ff950a] text-white font-semibold flex w-[120px] text-sm h-10   absolute top-0 left-0 items-center justify-center ">
@@ -82,15 +82,15 @@ const Blog = () => {
 
               {/* blog card div */}
               <div className="bg-white xl:w-[340px] xl:h-[300px] lg:w-[270px] lg:h-[340px] sm:w-[300px] w-[290px] h-[300px] rounded-xl shadow-lg absolute bottom-12 -translate-x-1/2 left-1/2">
-                {blog.writerImage(
+                {blog?.writerImage(
                   "rounded-full w-11 h-11 border-[#ff3a23] border-2 absolute left-8 -top-5 object-cover object-center"
                 )}
                 <div className="px-8 pt-8 pb-0 ">
                   <p className="text-sm text-gray-500 pt-3 pb-2">
-                    By {blog.writerName}
+                    By {blog?.writerName}
                   </p>
                   <p className="text-lg font-bold group-hover:text-[#ff950a] pb-3 transition-all duration-500 ease-in-out">
-                    {blog.blogName}
+                    {blog?.blogName}
                   </p>
                   <p className="text-sm text-gray-500  ">
                     {blog?.blogDescription?.length > 80
@@ -103,7 +103,7 @@ const Blog = () => {
                   <div className="flex justify-between items-center px-8 pt-5">
                     <p className="flex gap-1 text-gray-500 text-sm">
                       <MessagesSquare className="text-[#ff950a]" />
-                      {blog.comments} comments
+                      {blog?.comments} comments
                     </p>
                     <p className="text-sm flex gap-1 text-gray-500 group-hover:text-[#ff950a] transition-all duration-500 ease-in-out">
                       <ArrowRight />

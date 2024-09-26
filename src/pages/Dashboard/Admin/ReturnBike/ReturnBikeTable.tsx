@@ -81,26 +81,26 @@ const ReturnBikeTable = ({
             </TableRow>
           ) : (
             bookings?.map((booking: TBooking) => (
-              <TableRow key={booking._id}>
-                <TableCell>{booking?.userId.name}</TableCell>
+              <TableRow key={booking?._id}>
+                <TableCell>{booking?.userId?.name}</TableCell>
                 <TableCell>
                   <img
-                    src={booking?.bikeId.image[0]}
+                    src={booking?.bikeId?.image[0]}
                     className="w-12 h-12 rounded-xl"
                     alt=""
                   />
                 </TableCell>
 
-                <TableCell>{booking?.bikeId.name}</TableCell>
-                <TableCell>{booking?.bikeId.brand}</TableCell>
-                <TableCell>{booking?.bikeId.model}</TableCell>
-                <TableCell>{booking?.bikeId.pricePerHour}Tk</TableCell>
+                <TableCell>{booking?.bikeId?.name}</TableCell>
+                <TableCell>{booking?.bikeId?.brand}</TableCell>
+                <TableCell>{booking?.bikeId?.model}</TableCell>
+                <TableCell>{booking?.bikeId?.pricePerHour}Tk</TableCell>
                 <TableCell>
                   {new Date(booking?.startTime).toLocaleString()}
                 </TableCell>
                 <TableCell>
                   {booking.isReturned
-                    ? new Date(booking.returnTime).toLocaleString()
+                    ? new Date(booking?.returnTime).toLocaleString()
                     : "Not Returned"}
                 </TableCell>
 
@@ -114,7 +114,7 @@ const ReturnBikeTable = ({
                 </TableCell>
 
                 <TableCell>
-                  {loadingRef.current[booking._id] ? (
+                  {loadingRef.current[booking?._id] ? (
                     <div className="border border-[#ff950a] shadow-xl flex items-center justify-center w-[110px] h-12 p-3">
                       <Lottie animationData={spinner} loop={true} />
                     </div>
