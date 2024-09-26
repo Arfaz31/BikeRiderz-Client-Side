@@ -1,7 +1,8 @@
 import { useGetMyAllBookingsQuery } from "@/redux/api/BookingApi/bookingApi";
 import { useState } from "react";
 import { TBooking } from "@/types/Types";
-
+import Lottie from "lottie-react";
+import spinner from "@/assets/lottie/spinner.json";
 import {
   Table,
   TableBody,
@@ -24,6 +25,7 @@ const MyRentals = () => {
     setActiveTab(tab);
   };
 
+  console.log(myRentals);
   const handlePayment = (rent: TBooking) => {
     dispatch(
       bookingNow({
@@ -75,9 +77,7 @@ const MyRentals = () => {
         </div>
 
         <div className="mt-10">
-          {isLoading ? (
-            <p>Loading...</p>
-          ) : activeTab === "unpaid" ? (
+          {activeTab === "unpaid" ? (
             <div className="xl:w-full w-[850px] ">
               <Table>
                 <TableHeader>
@@ -100,7 +100,13 @@ const MyRentals = () => {
                 </TableHeader>
                 <TableBody>
                   {isLoading ? (
-                    <p>....Loading</p>
+                    <TableRow>
+                      <TableCell colSpan={6} className="text-center pt-20">
+                        <div className="  flex items-center justify-center w-full h-14 ">
+                          <Lottie animationData={spinner} loop={true} />
+                        </div>
+                      </TableCell>
+                    </TableRow>
                   ) : (
                     myRentals?.data
                       ?.filter((rent: TBooking) => !rent.isPaid)
@@ -163,7 +169,13 @@ const MyRentals = () => {
                 </TableHeader>
                 <TableBody>
                   {isLoading ? (
-                    <p>....Loading</p>
+                    <TableRow>
+                      <TableCell colSpan={6} className="text-center pt-20">
+                        <div className="  flex items-center justify-center w-full h-14 ">
+                          <Lottie animationData={spinner} loop={true} />
+                        </div>
+                      </TableCell>
+                    </TableRow>
                   ) : (
                     myRentals?.data
                       ?.filter((rental: TBooking) => rental?.isPaid)

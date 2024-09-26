@@ -2,6 +2,7 @@ import bike1 from "@/assets/bike/bikes.jpg";
 import bike2 from "@/assets/bike/bike.jpg";
 import suzuki from "@/assets/bike/suzuki-gsx-r600.png";
 import Container from "../Shared/Container";
+import { Link } from "react-router-dom";
 
 const KnowUs = () => {
   return (
@@ -96,10 +97,12 @@ const KnowUs = () => {
               </div>
             </div>
           </div>
-          <button className="flex text-lg items-center justify-center bg-[#ffa633] text-white w-[150px] h-14  p-3 md:mt-0 mt-4 md:ml-0  relative group overflow-hidden">
-            <span className="relative z-10">Book Now</span>
-            <span className="absolute inset-0 bg-[#ff950a] transition-all duration-300 transform -translate-x-full group-hover:translate-x-0"></span>
-          </button>
+          <Link to={"/bike"}>
+            <button className="flex text-lg items-center justify-center bg-[#ffa633] text-white w-[150px] h-14  p-3 md:mt-0 mt-4 md:ml-0  relative group overflow-hidden">
+              <span className="relative z-10">Book Now</span>
+              <span className="absolute inset-0 bg-[#ff950a] transition-all duration-300 transform -translate-x-full group-hover:translate-x-0"></span>
+            </button>
+          </Link>
         </div>
       </div>
     </Container>

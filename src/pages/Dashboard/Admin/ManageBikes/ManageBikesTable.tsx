@@ -8,10 +8,13 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-
 import { TBike } from "@/types/Types";
 import UpdateBike from "./UpdateBike";
 import { Trash2 } from "lucide-react";
+import { useDeleteBikeMutation } from "@/redux/api/BikeApi/bikeApi";
+import { toast } from "sonner";
+import { useState } from "react";
+import DeleteConfirmModel from "./DeleteConfirmModel";
 
 const ManageBikesTable = ({
   bikes,
@@ -20,6 +23,28 @@ const ManageBikesTable = ({
   bikes: TBike[];
   isLoading: boolean;
 }) => {
+  const [deleteBike, { isLoading: isDeleteLoading }] = useDeleteBikeMutation();
+  const [isDialogOpen, setIsDialogOpen] = useState(false);
+  const [bikeToDelete, setBikeToDelete] = useState<string | null>(null);
+
+  const handleDeleteConfirmation = async () => {
+    if (bikeToDelete) {
+      console.log("biketoDelte:", bikeToDelete);
+      try {
+        const result = await deleteBike(bikeToDelete);
+        console.log(result);
+        if (result) {
+          toast.success("Bike is deleted successfully");
+        }
+      } catch (err) {
+        toast.error("Failed to delete Bike");
+        console.log(err);
+      } finally {
+        setIsDialogOpen(false);
+        setBikeToDelete(null); // Reset bikeToDelete after deletion
+      }
+    }
+  };
   return (
     <div className="xl:w-full w-[900px] ">
       <Table>
@@ -68,13 +93,24 @@ const ManageBikesTable = ({
                 <TableCell>{bike.cc}Cc</TableCell>
                 <TableCell className="text-center">{bike.power}BHP</TableCell>
                 <TableCell>
-                  {" "}
-                  {bike?.isAvailable ? "Available" : "On Rent"}
+                  <span
+                    className={
+                      bike?.isAvailable ? "text-green-600" : "text-red-600"
+                    }
+                  >
+                    {bike?.isAvailable ? "Available" : "On Rent"}
+                  </span>
                 </TableCell>
 
                 <TableCell className="flex items-center gap-2">
                   <UpdateBike bike={bike} />
-                  <button className="flex  items-center justify-center rounded-md  bg-[#ff3434] text-white  p-3 relative group overflow-hidden">
+                  <button
+                    className={` flex  items-center justify-center rounded-md  bg-[#ff3434] text-white  p-3 relative group overflow-hidden`}
+                    onClick={() => {
+                      setIsDialogOpen(true);
+                      setBikeToDelete(bike._id);
+                    }}
+                  >
                     <Trash2 className="text-white w-5 h-5 z-10" />
                     <span className="absolute inset-0 bg-[#ff1717] transition-all duration-300 transform -translate-x-full group-hover:translate-x-0"></span>
                   </button>
@@ -84,6 +120,17 @@ const ManageBikesTable = ({
           )}
         </TableBody>
       </Table>
+      <DeleteConfirmModel
+        isOpen={isDialogOpen}
+        onConfirm={handleDeleteConfirmation}
+        onCancel={() => setIsDialogOpen(false)}
+        bikeName={
+          bikeToDelete
+            ? bikes.find((bike) => bike._id === bikeToDelete)?.name || ""
+            : ""
+        }
+        isDeleteLoading={isDeleteLoading}
+      />
     </div>
   );
 };

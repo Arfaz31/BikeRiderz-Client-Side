@@ -214,7 +214,7 @@ const BikeLists = () => {
 
       <Container>
         <div className="grid md:grid-cols-12 grid-rows-1 lg:gap-12 md:gap-10 gap-36 xl:px-0  sm:px-3 px-0 pt-12">
-          <div className=" lg:block hidden lg:col-span-3 md:col-span-12 row-span-1 lg:order-1 order-2 lg:pt-0 md:pt-20 pt-0">
+          <div className=" lg:block hidden  lg:col-span-3 md:col-span-12 row-span-1 lg:order-1 order-2 lg:pt-0 md:pt-20 pt-0">
             <p className="xl:text-base lg:text-sm text-base font-bold pb-2">
               What are you looking for
             </p>

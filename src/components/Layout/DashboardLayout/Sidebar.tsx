@@ -121,10 +121,10 @@ const Sidebar = () => {
                   </li>
                 </Link>
 
-                <Link to="/admin-dashboard/return-bikes">
+                <Link to="/admin-dashboard/return-bike">
                   <li
                     className={` flex items-center gap-2 text-sm text-white ${
-                      activeLink === "/admin-dashboard/return-bikes"
+                      activeLink === "/admin-dashboard/return-bike"
                         ? " bg-[#5b6f9c] w-full pl-2 py-2"
                         : "w-full pl-2 "
                     }`}

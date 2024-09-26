@@ -12,7 +12,7 @@ const AdminDashboard = () => {
   const { data: bookings } = useGetAllBookingsQuery("");
   const getAllBikes = data?.data?.bikes || [];
   const getAllUser = user?.data || [];
-  const getAllBookings = bookings?.data || [];
+  const getAllBookings = bookings?.data?.booking || [];
   const totalBalance = getAllBookings.reduce(
     (acc: number, booking: TBooking) => acc + booking.totalCost,
     0

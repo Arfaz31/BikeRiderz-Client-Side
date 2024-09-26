@@ -65,7 +65,7 @@ const Login = () => {
           </span>
         </div>
       </Link>
-      <div className="grid grid-cols-2 lg:w-[900px] h-[600px] md:w-[85%] w-[90%]  bg-white shadow-xl mx-auto mb-12">
+      <div className="grid grid-cols-2 lg:w-[900px] h-[700px] md:w-[92%] w-[90%]  bg-white shadow-xl mx-auto mb-12">
         <div className="bg-[#ff950a]   p-8  md:col-span-1 col-span-full text-center flex flex-col items-center justify-center md:order-1 order-2">
           <h2 className="text-white font-semibold text-2xl pb-4">
             Welcome to BIKERIDERZ
@@ -83,6 +83,8 @@ const Login = () => {
           <Link to={"/signup"}>
             <p className="text-white pt-2 underline">SignUp</p>
           </Link>
+          <p className="text-white pt-8">Admin Email: arfaz1@gmail.com</p>
+          <p className="text-white pt-2">Admin Password: 1234</p>
         </div>
         <div className="px-8 py-24 w-full md:col-span-1 col-span-full md:order-2 order-1">
           <h2 className="text-2xl font-bold pb-8">Login</h2>

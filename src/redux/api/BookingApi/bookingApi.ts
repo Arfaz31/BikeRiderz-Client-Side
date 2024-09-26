@@ -41,6 +41,16 @@ const bookingApi = baseApi.injectEndpoints({
       },
       invalidatesTags: ["Rental"],
     }),
+
+    returnBike: builder.mutation({
+      query: (id) => {
+        return {
+          url: `/api/rentals/${id}/return`,
+          method: "PUT",
+        };
+      },
+      invalidatesTags: ["Rental"],
+    }),
   }),
 });
 
@@ -49,4 +59,5 @@ export const {
   useGetMyAllBookingsQuery,
   useGetAllBookingsQuery,
   useUpdateIsPaidMutation,
+  useReturnBikeMutation,
 } = bookingApi;

@@ -20,7 +20,8 @@ const Checkout = () => {
   const [paymentMethod, setPaymentMethod] = useState<string | null>(null);
   const [termsAccepted, setTermsAccepted] = useState(false);
   const [booking, { isLoading }] = useCreateBookingsMutation();
-  const [payTotalCost] = useUpdateIsPaidMutation();
+  const [payTotalCost, { isLoading: ispaidLoading }] =
+    useUpdateIsPaidMutation();
   const { bikeId, startTime, advancedPayment, bookingId, totalCost } =
     useAppSelector((store) => store.bookNow);
   const dispatch = useAppDispatch();
@@ -152,7 +153,7 @@ const Checkout = () => {
           </div>
 
           <div className="my-8 ">
-            {isLoading ? (
+            {(bookingId ? ispaidLoading : isLoading) ? (
               <div className="w-full border border-[#ff950a] shadow-xl mt-4 flex items-center justify-center h-16">
                 <Lottie animationData={spinner} loop={true} />
               </div>
