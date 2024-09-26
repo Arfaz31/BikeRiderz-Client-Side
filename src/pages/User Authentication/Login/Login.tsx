@@ -83,7 +83,7 @@ const Login = () => {
           <Link to={"/signup"}>
             <p className="text-white pt-2 underline">SignUp</p>
           </Link>
-          <p className="text-white pt-8">Admin Email: arfaz1@gmail.com</p>
+          <p className="text-white pt-8">Admin Email: admin@gmail.com</p>
           <p className="text-white pt-2">Admin Password: 1234</p>
         </div>
         <div className="px-8 py-24 w-full md:col-span-1 col-span-full md:order-2 order-1">
