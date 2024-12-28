@@ -41,13 +41,14 @@ const router = createBrowserRouter([
         path: "blog",
         element: <Blog />,
       },
+
       {
         path: "singleProduct/:id",
-        element: <SingleProduct />,
-      },
-      {
-        path: "singleProduct/:id",
-        element: <SingleProduct />,
+        element: (
+          <ProtectedRoute>
+            <SingleProduct />
+          </ProtectedRoute>
+        ),
       },
       {
         path: "checkout",

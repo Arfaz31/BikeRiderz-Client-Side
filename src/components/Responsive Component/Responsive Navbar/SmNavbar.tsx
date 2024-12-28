@@ -109,9 +109,17 @@ const SmNavbar = () => {
                 </div>
               ) : (
                 <div className="flex justify-center gap-2">
-                  <p className="hover:text-[#ff950a] cursor-pointer ">LOGIN</p>
+                  <Link to={"/login"}>
+                    <p className="hover:text-[#ff950a] cursor-pointer ">
+                      LOGIN
+                    </p>
+                  </Link>
                   <p>|</p>
-                  <p className="hover:text-[#ff950a]  cursor-pointer">SIGNUP</p>
+                  <Link to={"/signup"}>
+                    <p className="hover:text-[#ff950a]  cursor-pointer">
+                      SIGNUP
+                    </p>
+                  </Link>
                 </div>
               )}
             </HoverCardContent>
