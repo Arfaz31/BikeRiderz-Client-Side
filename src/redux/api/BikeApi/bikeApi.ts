@@ -69,6 +69,7 @@ const bikeApi = baseApi.injectEndpoints({
       },
       providesTags: ["Bikes"],
     }),
+    //get single bikes
     getSingleBikes: builder.query({
       query: (id) => {
         return {

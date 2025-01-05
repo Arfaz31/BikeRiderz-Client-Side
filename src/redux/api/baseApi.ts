@@ -3,7 +3,8 @@ import { RootState } from "../store";
 
 const baseQuery = fetchBaseQuery({
   baseUrl: "http://localhost:5000",
-  credentials: "include",
+  credentials: "include", //set refresh token in cookie
+  //to send accessToken with each request
   prepareHeaders: (headers, { getState }) => {
     const token = (getState() as RootState).auth.token;
     if (token) {
