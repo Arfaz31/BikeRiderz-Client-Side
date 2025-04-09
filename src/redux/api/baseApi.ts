@@ -2,7 +2,9 @@ import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 import { RootState } from "../store";
 
 const baseQuery = fetchBaseQuery({
-  baseUrl: "http://localhost:5000",
+  baseUrl: "https://bike-riderz-server.vercel.app",
+  //https://bike-riderz-server.vercel.app
+  //http://localhost:5000
   credentials: "include", //set refresh token in cookie
   //to send accessToken with each request
   prepareHeaders: (headers, { getState }) => {

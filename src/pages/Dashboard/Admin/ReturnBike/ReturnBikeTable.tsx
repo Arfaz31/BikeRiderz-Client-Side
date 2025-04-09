@@ -85,7 +85,7 @@ const ReturnBikeTable = ({
                 <TableCell>{booking?.userId?.name}</TableCell>
                 <TableCell>
                   <img
-                    src={booking?.bikeId?.image[0]}
+                    src={booking?.bikeId?.images[0]}
                     className="w-12 h-12 rounded-xl"
                     alt=""
                   />

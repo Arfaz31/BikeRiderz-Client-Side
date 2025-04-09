@@ -4,7 +4,7 @@
 
 ## Live Demo
 
-Check out the live demo of the project here: https://bike-riderz-client-side.vercel.app/
+Check out the live demo of the project here: https://bike-riderz-client.vercel.app/
 
 ## Features
 
